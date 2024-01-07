@@ -6,12 +6,12 @@ import (
 	"strconv"
 )
 
-func download(url string, index int, enc map[string]any) {
+func download(url string, dl_type string, index int, enc map[string]any) {
 	var path string
 	if enc["required"].(bool) {
-		path = "./.temp_downloads/" + strconv.Itoa(index) + ".ts"
+		path = "./.temp_downloads/" + dl_type + "_" + strconv.Itoa(index) + ".ts"
 	} else {
-		path = "./.temp_decrypt/" + strconv.Itoa(index) + ".ts"
+		path = "./.temp_decrypt/" + dl_type + "_" + strconv.Itoa(index) + ".ts"
 	}
 
 	for {
@@ -24,6 +24,8 @@ func download(url string, index int, enc map[string]any) {
 				if decrypt(path, enc["key"].([]byte), enc["iv"].(string)) {
 					break
 				}
+			} else {
+				break
 			}
 		}
 	}
